@@ -1,0 +1,127 @@
+/* ============================================================
+   field.css — 「野原」テーマ
+   青空、電線と電柱、そよ風に揺れる花や草、自転車が2台。
+   絵文字ではなく、手描き風のイラストで統一。
+   スクロールすると、まっすぐな夏の午後から夕暮れへと
+   空の色がゆっくり移ろっていく。
+   ============================================================ */
+:root {
+  --bg: #eaf6ff;
+  --bg-alt: #ffffff;
+  --text: #2b3a4a;
+  --text-dim: #64798c;
+  --accent: #4a90c9;
+  --accent-2: #e0894a;
+  --card-bg: #ffffff;
+  --card-shadow: 0 12px 28px rgba(74,144,201,0.18);
+  --radius: 12px;
+  --font-display: "Zen Maru Gothic", sans-serif;
+  --font-body: "Zen Kaku Gothic New", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+}
+
+body {
+  background: linear-gradient(180deg, #bfe3ff 0%, #eaf6ff 45%, #f3fbef 100%);
+  cursor: none;
+}
+
+#decor-field { display: block; }
+#decor-field .field-sky { position: absolute; inset: 0; }
+#decor-field .field-sky::before {
+  content: ""; position: absolute; inset: 0;
+  background: radial-gradient(circle at 80% 8%, rgba(255,255,255,0.85), transparent 40%);
+}
+/* スクロールするほど夕暮れの色が重なっていく */
+#decor-field .field-sky::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(180deg, #ffd9a0 0%, #ffb27a 35%, transparent 70%);
+  opacity: var(--scroll, 0);
+  transition: opacity 0.2s linear;
+}
+
+/* 白い雲（絵の具でぼかしたような、やわらかい塊） */
+#decor-field .field-clouds { position: absolute; inset: 0; top: 0; height: 45%; overflow: hidden; }
+#decor-field .field-clouds::before,
+#decor-field .field-clouds::after {
+  content: ""; position: absolute; top: 8%;
+  width: 220px; height: 70px; border-radius: 50%;
+  background:
+    radial-gradient(ellipse at 30% 50%, rgba(255,255,255,0.95), transparent 65%),
+    radial-gradient(ellipse at 60% 40%, rgba(255,255,255,0.9), transparent 60%),
+    radial-gradient(ellipse at 75% 60%, rgba(255,255,255,0.85), transparent 60%);
+  filter: blur(2px);
+  animation: cloud-drift 70s linear infinite;
+}
+#decor-field .field-clouds::before { left: -260px; animation-delay: 0s; }
+#decor-field .field-clouds::after { left: -260px; top: 20%; width: 160px; height: 50px; animation-delay: -35s; animation-duration: 90s; }
+@keyframes cloud-drift {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(calc(100vw + 260px)); }
+}
+
+#decor-field .field-wires {
+  position: absolute; left: 0; right: 0; top: 12%; height: 40vh;
+}
+#decor-field .field-wires::before {
+  content: ""; position: absolute; left: 8%; right: 8%; top: 30%; height: 1px;
+  background: rgba(60,70,80,0.35);
+  box-shadow: 0 26px 0 -1px rgba(60,70,80,0.25);
+}
+#decor-field .field-wires::after {
+  content: ""; position: absolute; left: 10%; top: 0; width: 6px; height: 45vh;
+  background: rgba(60,70,80,0.35);
+  box-shadow: 78vw 0 0 0 rgba(60,70,80,0.35);
+}
+
+/* 手描き風の草・花・稲。画面いっぱいに広がる帯として敷き詰める */
+#decor-field .field-grass {
+  position: absolute; left: 0; right: 0; bottom: 0; height: 170px;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 150'><g stroke-linecap='round' fill='none'><path d='M10,150 C6,110 16,90 9,60' stroke='%233f5e2a' stroke-width='7'/><path d='M40,150 C46,105 34,85 42,55' stroke='%233f5e2a' stroke-width='6'/><path d='M75,150 C70,100 82,80 74,45' stroke='%233f5e2a' stroke-width='7'/><path d='M160,150 C155,105 168,88 158,58' stroke='%233f5e2a' stroke-width='6'/><path d='M230,150 C236,108 224,86 233,52' stroke='%233f5e2a' stroke-width='7'/><path d='M300,150 C295,102 308,82 298,48' stroke='%233f5e2a' stroke-width='6'/><path d='M360,150 C366,110 354,90 363,58' stroke='%233f5e2a' stroke-width='7'/></g><g stroke-linecap='round' fill='none'><path d='M22,150 C15,95 30,65 20,20' stroke='%235a7d3a' stroke-width='5'/><path d='M55,150 C62,92 48,60 58,18' stroke='%237ea34c' stroke-width='4'/><path d='M95,150 C88,90 102,58 92,22' stroke='%235a7d3a' stroke-width='5'/><path d='M140,150 C147,95 133,63 143,25' stroke='%237ea34c' stroke-width='4'/><path d='M185,150 C178,92 192,60 182,20' stroke='%235a7d3a' stroke-width='5'/><path d='M250,150 C257,90 243,58 253,22' stroke='%237ea34c' stroke-width='4'/><path d='M280,150 C273,95 287,63 277,25' stroke='%235a7d3a' stroke-width='5'/><path d='M320,150 C327,92 313,60 323,18' stroke='%237ea34c' stroke-width='4'/><path d='M345,150 C338,90 352,58 342,22' stroke='%235a7d3a' stroke-width='5'/><path d='M385,150 C392,95 378,63 388,25' stroke='%237ea34c' stroke-width='4'/></g><g transform='translate(115,95)'><ellipse rx='7' ry='11' fill='%23e79ab5'/><ellipse rx='7' ry='11' fill='%23e79ab5' transform='rotate(72)'/><ellipse rx='7' ry='11' fill='%23e79ab5' transform='rotate(144)'/><ellipse rx='7' ry='11' fill='%23e79ab5' transform='rotate(216)'/><ellipse rx='7' ry='11' fill='%23e79ab5' transform='rotate(288)'/><circle r='5' fill='%23f5d76e'/></g><g transform='translate(265,100)'><ellipse rx='6' ry='10' fill='%23f5d76e'/><ellipse rx='6' ry='10' fill='%23f5d76e' transform='rotate(72)'/><ellipse rx='6' ry='10' fill='%23f5d76e' transform='rotate(144)'/><ellipse rx='6' ry='10' fill='%23f5d76e' transform='rotate(216)'/><ellipse rx='6' ry='10' fill='%23f5d76e' transform='rotate(288)'/><circle r='4' fill='%23c97a3f'/></g><g transform='translate(200,105) scale(0.7)'><ellipse rx='7' ry='11' fill='%23edb0c6'/><ellipse rx='7' ry='11' fill='%23edb0c6' transform='rotate(72)'/><ellipse rx='7' ry='11' fill='%23edb0c6' transform='rotate(144)'/><ellipse rx='7' ry='11' fill='%23edb0c6' transform='rotate(216)'/><ellipse rx='7' ry='11' fill='%23edb0c6' transform='rotate(288)'/><circle r='5' fill='%23f5d76e'/></g><g transform='translate(350,60)'><path d='M0,90 C4,60 -3,30 2,0' stroke='%236b8a4a' stroke-width='3' fill='none' stroke-linecap='round'/><ellipse cx='2' cy='-6' rx='6' ry='16' fill='%23d9b56a' transform='rotate(12 2 -6)'/></g><g transform='translate(30,55)'><path d='M0,95 C-4,65 3,35 -2,5' stroke='%236b8a4a' stroke-width='3' fill='none' stroke-linecap='round'/><ellipse cx='-2' cy='-1' rx='6' ry='16' fill='%23d9b56a' transform='rotate(-14 -2 -1)'/></g></svg>");
+  background-repeat: repeat-x;
+  background-size: 400px 170px;
+  background-position: bottom center;
+  animation: field-sway 4s ease-in-out infinite;
+  transform-origin: bottom center;
+}
+@keyframes field-sway {
+  0%, 100% { transform: rotate(-0.6deg); }
+  50% { transform: rotate(0.6deg); }
+}
+
+/* 手描き風の自転車2台 */
+#decor-field .field-bicycles {
+  position: absolute; bottom: 18px; right: 4%; width: 260px; height: 90px; opacity: 0.8;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 260 90'><g stroke='%233a3428' stroke-width='2.5' fill='none' stroke-linecap='round'><circle cx='30' cy='62' r='20'/><circle cx='95' cy='62' r='20'/><path d='M30,62 L60,30 L95,62 M60,30 L52,62 M60,30 L70,15 L82,15'/><path d='M30,62 L52,62'/></g><g stroke='%234a4436' stroke-width='2.2' fill='none' stroke-linecap='round' opacity='0.8'><circle cx='165' cy='66' r='18'/><circle cx='225' cy='66' r='18'/><path d='M165,66 L192,38 L225,66 M192,38 L185,66 M192,38 L200,22 L211,22'/><path d='M165,66 L185,66'/></g></svg>");
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+/* 風に飛んでくる花びらや葉っぱ（手描き風のシルエット） */
+#decor-field .field-petal {
+  position: absolute; width: 20px; height: 20px;
+  background-repeat: no-repeat; background-size: contain;
+  animation: field-drift linear forwards;
+}
+@keyframes field-drift {
+  0% { transform: translate(0, 0) rotate(0deg); opacity: 0; }
+  8% { opacity: 0.9; }
+  100% { transform: translate(-70vw, 90vh) rotate(340deg); opacity: 0.2; }
+}
+
+/* 葉っぱ型のカーソル（手描き風） */
+.field-cursor-leaf {
+  width: 22px; height: 22px;
+  background: no-repeat center/contain url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M4,20 C2,10 10,2 20,4 C18,14 10,20 4,20 Z' fill='%237ea34c'/><path d='M5,19 C7,12 12,7 18,5' stroke='%235a7d3a' stroke-width='1' fill='none'/></svg>");
+  transform: rotate(-15deg);
+}
+
+.gate-box { border: 1px solid rgba(74,144,201,0.25); }
+.gate-box h1 { color: var(--accent); }
+
+#app-header { background: rgba(234,246,255,0.7); border-bottom: 1px solid rgba(74,144,201,0.15); }
+
+.photo-tile { border: 1px solid rgba(74,144,201,0.15); }
+.note-body { color: var(--text); }
+.icon-btn { color: var(--accent); border-color: rgba(74,144,201,0.3); }
+.icon-btn.on { background: var(--accent); color: #fff; }
+.year-tab.active { color: #fff; }

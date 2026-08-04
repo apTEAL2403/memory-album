@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>家族ページ | メモリーアルバム</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Zen+Kaku+Gothic+New:wght@400;500&family=Zen+Maru+Gothic:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../shared/base.css">
+<link rel="stylesheet" id="template-css" href="../shared/templates/home.css">
+<script>
+  window.APP_CONFIG = { community: "family", password: "TEAL", title: "家族の記録" };
+</script>
+</head>
+<body>
+
+<div id="decor-star"><canvas id="star-canvas"></canvas><div class="planet p1"></div><div class="planet p2"></div></div>
+<div id="decor-cinema">
+  <div class="cinema-grain"></div>
+  <div class="cinema-scanlines"></div>
+  <div class="cinema-vignette"></div>
+  <div class="cinema-letterbox-top"></div>
+  <div class="cinema-letterbox-bottom"></div>
+</div>
+<div id="decor-field">
+  <div class="field-sky"></div>
+  <div class="field-clouds"></div>
+  <div class="field-wires"></div>
+  <div class="field-grass"></div>
+  <div class="field-bicycles"></div>
+</div>
+<div id="decor-home">
+  <div class="home-floor"></div>
+  <div class="home-furniture"></div>
+</div>
+<div id="decor-towel">
+  <div class="towel-blob b1"></div>
+  <div class="towel-blob b2"></div>
+  <div class="towel-blob b3"></div>
+  <div class="texture-layer texture-paper"></div>
+  <div class="texture-layer texture-fabric"></div>
+  <div class="texture-layer texture-concrete"></div>
+  <div class="texture-layer texture-paint"></div>
+  <div class="towel-stone s1"></div>
+  <div class="towel-stone s2"></div>
+</div>
+<div id="custom-cursor"></div>
+
+<!-- 合言葉ゲート -->
+<div id="gate-screen">
+  <div class="gate-box">
+    <h1>FAMILY</h1>
+    <p>合言葉を入力してください</p>
+    <form id="gate-form">
+      <input type="password" id="gate-input" autocomplete="off" placeholder="Password">
+      <button type="submit">入る</button>
+    </form>
+    <div class="gate-error" id="gate-error"></div>
+  </div>
+</div>
+
+<!-- 本体 -->
+<div id="main-app" style="display:none;">
+  <header id="app-header">
+    <h1 id="app-title"></h1>
+    <div id="header-actions">
+      <button class="icon-btn" id="music-toggle" title="BGM再生/停止">♪</button>
+      <button class="icon-btn" id="template-toggle" title="デザインを変える">🎨</button>
+      <div id="template-menu">
+        <button data-template="star">🌌 夜空</button>
+        <button data-template="cinema">🎞️ 映画館</button>
+        <button data-template="field">🌾 野原</button>
+        <button data-template="home">🏠 おうち</button>
+        <button data-template="towel">🪨 テクスチャ</button>
+      </div>
+      <button class="icon-btn" id="admin-open" title="編集する">＋</button>
+    </div>
+  </header>
+
+  <div id="year-tabs"></div>
+  <main id="gallery"></main>
+
+  <!-- ライトボックス -->
+  <div id="lightbox-overlay">
+    <div class="lightbox-box">
+      <button class="lightbox-close" id="lightbox-close">✕</button>
+      <div class="lightbox-stage" id="lightbox-stage"></div>
+      <div class="lightbox-meta" id="lightbox-meta"></div>
+    </div>
+  </div>
+
+  <!-- 管理パネル -->
+  <div id="admin-panel">
+    <button class="admin-close" id="admin-close">✕</button>
+    <h3>編集する</h3>
+    <div class="admin-tabs">
+      <button class="admin-tab active" data-target="tab-photo">写真を追加</button>
+      <button class="admin-tab" data-target="tab-note">文言</button>
+      <button class="admin-tab" data-target="tab-playlist">プレイリスト</button>
+      <button class="admin-tab" data-target="tab-backup">バックアップ</button>
+    </div>
+
+    <div class="admin-section active" id="tab-photo">
+      <form id="form-new-photo">
+        <div class="field"><label>年月日</label><input type="date" name="photo_date" required></div>
+        <div class="field"><label>写真・動画（複数選択可）</label><input type="file" name="photos" accept="image/*,video/*" multiple required></div>
+        <div class="field"><label>キャプション（任意）</label><input type="text" name="caption"></div>
+        <div class="field">
+          <label>サイズ</label>
+          <select name="size">
+            <option value="random">おまかせ（ランダム）</option>
+            <option value="small">小さめ</option>
+            <option value="medium">ふつう</option>
+            <option value="large">大きめ</option>
+          </select>
+        </div>
+        <button class="submit-btn" type="submit">追加する</button>
+      </form>
+    </div>
+
+    <div class="admin-section" id="tab-note">
+      <form id="form-new-note">
+        <div class="field"><label>年月日（この位置に挟まれます）</label><input type="date" name="note_date" required></div>
+        <div class="field"><label>文言</label><textarea name="body" required placeholder="この時期のこと、伝えたいこと..."></textarea></div>
+        <button class="submit-btn" type="submit">追加する</button>
+      </form>
+      <p style="font-size:12px;color:var(--text-dim);margin-top:18px;">既存の文言（削除・編集はギャラリー上の✎からも可能）</p>
+      <div class="manage-list" id="note-manage-list"></div>
+    </div>
+
+    <div class="admin-section" id="tab-playlist">
+      <form id="form-new-track">
+        <div class="field"><label>対象の年</label><input type="number" name="playlist_year" placeholder="2025"></div>
+        <div class="field"><label>曲（複数選択可）</label><input type="file" name="tracks" accept="audio/*" multiple required></div>
+        <button class="submit-btn" type="submit">プレイリストに追加</button>
+      </form>
+      <p style="font-size:12px;color:var(--text-dim);margin-top:18px;">この年の曲一覧</p>
+      <div class="manage-list" id="playlist-manage-list"></div>
+    </div>
+
+    <div class="admin-section" id="tab-backup">
+      <p style="font-size:12px;color:var(--text-dim);">
+        写真の日付・キャプション・文言・コメントなどの記録を、お使いの端末に
+        ファイルとして保存できます（写真本体ではなく「記録」のバックアップです）。
+        月に一度など、時々ダウンロードしておくと安心です。
+      </p>
+      <button class="submit-btn" id="backup-download-btn">バックアップをダウンロード</button>
+
+      <div class="field" style="margin-top:22px;">
+        <label>バックアップから復元する</label>
+        <input type="file" id="backup-restore-input" accept="application/json">
+      </div>
+      <p style="font-size:11px;color:var(--text-dim);">
+        ダウンロードしたファイルを選ぶと復元されます。今あるデータは消えず、
+        足りない分だけ補われます。
+      </p>
+      <div id="backup-status" style="font-size:12px;color:var(--accent);margin-top:6px;"></div>
+    </div>
+  </div>
+
+  <button class="admin-fab" onclick="document.getElementById('admin-panel').classList.add('open')">＋</button>
+</div>
+
+<div id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../shared/supabase-config.js"></script>
+<script src="../shared/templates/star.js"></script>
+<script src="../shared/templates/cinema.js"></script>
+<script src="../shared/templates/field.js"></script>
+<script src="../shared/templates/home.js"></script>
+<script src="../shared/templates/towel.js"></script>
+<script src="../shared/app.js"></script>
+</body>
+</html>
