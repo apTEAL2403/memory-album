@@ -102,31 +102,25 @@ body {
   box-shadow: 78vw 0 0 0 rgba(60,70,80,0.35);
 }
 
-/* 緑の丘。頂点は画面中央下部、両端は低くなって開けた眺めに */
+/* 緑の丘。頂点は画面中央下部、両端まで途切れず伸びるように */
 #decor-field .field-hill {
   position: absolute; left: 0; right: 0; bottom: 0; height: 42vh;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 320'><path d='M0,320 L0,210 C150,160 320,70 500,60 C680,70 850,160 1000,210 L1000,320 Z' fill='%234a7a3a'/><path d='M0,320 L0,225 C150,178 320,95 500,86 C680,95 850,178 1000,225 L1000,320 Z' fill='%235c8f47'/><g stroke='%237ea34c' stroke-width='2' stroke-linecap='round' opacity='0.55'><path d='M420,110 l -4,-14'/><path d='M460,92 l -3,-13'/><path d='M500,86 l 0,-14'/><path d='M540,92 l 3,-13'/><path d='M580,110 l 4,-14'/><path d='M350,140 l -4,-12'/><path d='M650,140 l 4,-12'/><path d='M300,168 l -4,-11'/><path d='M700,168 l 4,-11'/><path d='M250,192 l -3,-10'/><path d='M750,192 l 3,-10'/></g></svg>");
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 320'><path d='M0,320 L0,150 C120,120 300,70 500,60 C700,70 880,120 1000,150 L1000,320 Z' fill='%234a7a3a'/><path d='M0,320 L0,168 C120,138 300,95 500,86 C700,95 880,138 1000,168 L1000,320 Z' fill='%235c8f47'/><g stroke='%237ea34c' stroke-width='2' stroke-linecap='round' opacity='0.55'><path d='M420,110 l -4,-14'/><path d='M460,92 l -3,-13'/><path d='M500,86 l 0,-14'/><path d='M540,92 l 3,-13'/><path d='M580,110 l 4,-14'/><path d='M350,140 l -4,-12'/><path d='M650,140 l 4,-12'/><path d='M300,168 l -4,-11'/><path d='M700,168 l 4,-11'/><path d='M250,192 l -3,-10'/><path d='M750,192 l 3,-10'/></g></svg>");
   background-repeat: no-repeat; background-size: 100% 100%; background-position: bottom center;
 }
 
-/* 両端の小さな木 */
+/* 丘の上に生える木々 */
 #decor-field .field-tree-left,
+#decor-field .field-tree-mid,
 #decor-field .field-tree-right {
   position: absolute; bottom: 0; width: 62px; height: 86px;
   background: no-repeat bottom/contain url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 110'><rect x='36' y='55' width='8' height='50' fill='%236b4a2a'/><ellipse cx='40' cy='45' rx='34' ry='36' fill='%234a7a3a'/><ellipse cx='28' cy='35' rx='20' ry='22' fill='%235c8f47'/></svg>");
 }
-#decor-field .field-tree-left { left: 3%; }
-#decor-field .field-tree-right { right: 3%; transform: scaleX(-1); }
+#decor-field .field-tree-left { left: 6%; bottom: 6vh; }
+#decor-field .field-tree-mid { left: 47%; bottom: 15vh; width: 50px; height: 70px; }
+#decor-field .field-tree-right { right: 6%; bottom: 6vh; transform: scaleX(-1); }
 
-/* 手描き風の自転車2台 */
-#decor-field .field-bicycles {
-  position: absolute; bottom: 10px; right: 12%; width: 260px; height: 90px; opacity: 0.8;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 260 90'><g stroke='%233a3428' stroke-width='2.5' fill='none' stroke-linecap='round'><circle cx='30' cy='62' r='20'/><circle cx='95' cy='62' r='20'/><path d='M30,62 L60,30 L95,62 M60,30 L52,62 M60,30 L70,15 L82,15'/><path d='M30,62 L52,62'/></g><g stroke='%234a4436' stroke-width='2.2' fill='none' stroke-linecap='round' opacity='0.8'><circle cx='165' cy='66' r='18'/><circle cx='225' cy='66' r='18'/><path d='M165,66 L192,38 L225,66 M192,38 L185,66 M192,38 L200,22 L211,22'/><path d='M165,66 L185,66'/></g></svg>");
-  background-repeat: no-repeat;
-  background-size: contain;
-}
-
-/* 風に飛んでくる花びらや葉っぱ（手描き風のシルエット。葉はそのまま、花は一枚の花びらに） */
+/* 風に飛んでくる葉っぱ（手描き風のシルエット） */
 #decor-field .field-petal {
   position: absolute; width: 40px; height: 40px;
   background-repeat: no-repeat; background-size: contain;
@@ -136,6 +130,32 @@ body {
   0% { transform: translate(0, 0) rotate(0deg); opacity: 0; }
   8% { opacity: 0.9; }
   100% { transform: translate(-70vw, 90vh) rotate(340deg); opacity: 0.2; }
+}
+
+/* 空を飛ぶ鳥（手描き風のシルエット） */
+#decor-field .field-bird {
+  position: absolute; left: 0; width: 34px; height: 17px;
+  animation: bird-fly linear forwards;
+}
+#decor-field .field-bird.reverse { animation-name: bird-fly-reverse; }
+#decor-field .field-bird-inner {
+  width: 100%; height: 100%;
+  background: no-repeat center/contain url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 20'><path d='M2,14 C8,4 14,4 20,10 C26,4 32,4 38,14 C30,10 26,12 20,16 C14,12 10,10 2,14 Z' fill='%233a3428'/></svg>");
+  animation: bird-flap 0.6s ease-in-out infinite;
+}
+@keyframes bird-fly {
+  0% { transform: translateX(-60px); opacity: 0; }
+  8%, 92% { opacity: 0.85; }
+  100% { transform: translateX(calc(100vw + 60px)); opacity: 0; }
+}
+@keyframes bird-fly-reverse {
+  0% { transform: translateX(calc(100vw + 60px)) scaleX(-1); opacity: 0; }
+  8%, 92% { opacity: 0.85; }
+  100% { transform: translateX(-60px) scaleX(-1); opacity: 0; }
+}
+@keyframes bird-flap {
+  0%, 100% { transform: scaleY(1); }
+  50% { transform: scaleY(0.65); }
 }
 
 /* 葉っぱ型のカーソル（手描き風） */
