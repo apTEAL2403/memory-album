@@ -1,0 +1,182 @@
+/* ============================================================
+   towel.css — 「海原」テーマ
+   モルディブの海のイメージ。砂浜〜白い波打ち際〜水色〜
+   エメラルド〜青〜深い青緑色へと変化する静的な背景（スクロールで
+   色は変えない）。水上コテージの連なり、ヨット、蟹・ヤドカリ、
+   魚たちが泳ぐ。
+   ============================================================ */
+:root {
+  --bg: #0a2f5c;
+  --bg-alt: #ffffff;
+  --text: #123a4a;
+  --text-dim: #4a7686;
+  --accent: #2fb6a3;
+  --accent-2: #e8c96b;
+  --card-bg: #ffffff;
+  --card-shadow: 0 14px 30px rgba(10,60,80,0.22);
+  --radius: 16px;
+  --font-display: "Zen Maru Gothic", sans-serif;
+  --font-body: "Zen Kaku Gothic New", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+}
+
+/* 海のグラデーション（画面全体・静的）。background-attachment:fixed により、
+   ページが長くなっても常に画面全体に対して同じ配色で表示される
+   （これがないと、写真が多く長いページでは色が変わって見えてしまう） */
+body {
+  background: linear-gradient(180deg,
+    #0a3d52 0%,
+    #1565a8 26%,
+    #22a67f 50%,
+    #7fd9d0 72%,
+    #eafaf6 90%,
+    #e9d9ad 100%);
+  background-attachment: fixed;
+  cursor: none;
+}
+
+#decor-towel { display: block; }
+
+/* 水上コテージの連なり（画面左端からのぞく、大きめサイズ）。
+   階段の向きを1軒ごとに交互にし、手前向きの家には大きな窓、
+   奥向きの家の前の桟橋には自転車を置く。右端はやや豪華に */
+#decor-towel .ocean-cottage {
+  position: absolute; left: -80px; top: 30%; height: 19vh; width: calc(19vh * 4.1); opacity: 0.85;
+  background: no-repeat center/contain url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 -30 500 130'><line x1='0' y1='85' x2='500' y2='85' stroke='%235a4326' stroke-width='3'/><g><path d='M20,55 L50,33 L80,55 Z' fill='%236b4a2a'/><rect x='28' y='55' width='44' height='22' fill='%23a3703f'/><rect x='40' y='58' width='18' height='15' fill='%23cfe8ec' stroke='%235a4326' stroke-width='1'/><line x1='30' y1='77' x2='30' y2='90' stroke='%235a4326' stroke-width='3'/><line x1='70' y1='77' x2='70' y2='90' stroke='%235a4326' stroke-width='3'/><path d='M28,65 L14,70 L28,75 L14,80 L28,85 L18,90' stroke='%235a4326' stroke-width='2.5' fill='none'/></g><g transform='translate(110,6) scale(0.9)'><path d='M20,55 L50,33 L80,55 Z' fill='%236b4a2a'/><rect x='28' y='55' width='44' height='22' fill='%23a3703f'/><line x1='30' y1='77' x2='30' y2='90' stroke='%235a4326' stroke-width='3'/><line x1='70' y1='77' x2='70' y2='90' stroke='%235a4326' stroke-width='3'/><path d='M72,65 L86,70 L72,75 L86,80 L72,85 L82,90' stroke='%235a4326' stroke-width='2.5' fill='none'/></g><g transform='translate(130,75) scale(0.3)' stroke='%233a3428' stroke-width='4' fill='none'><circle cx='15' cy='30' r='14'/><circle cx='55' cy='30' r='14'/><path d='M15,30 L35,10 L55,30 M35,10 L30,30'/></g><g transform='translate(230,0)'><path d='M20,55 L50,33 L80,55 Z' fill='%236b4a2a'/><rect x='28' y='55' width='44' height='22' fill='%23a3703f'/><rect x='40' y='58' width='18' height='15' fill='%23cfe8ec' stroke='%235a4326' stroke-width='1'/><line x1='30' y1='77' x2='30' y2='90' stroke='%235a4326' stroke-width='3'/><line x1='70' y1='77' x2='70' y2='90' stroke='%235a4326' stroke-width='3'/><path d='M28,65 L14,70 L28,75 L14,80 L28,85 L18,90' stroke='%235a4326' stroke-width='2.5' fill='none'/></g><g transform='translate(350,10) scale(0.85)'><path d='M20,55 L50,33 L80,55 Z' fill='%236b4a2a'/><rect x='28' y='55' width='44' height='22' fill='%23a3703f'/><line x1='30' y1='77' x2='30' y2='90' stroke='%235a4326' stroke-width='3'/><line x1='70' y1='77' x2='70' y2='90' stroke='%235a4326' stroke-width='3'/><path d='M72,65 L86,70 L72,75 L86,80 L72,85 L82,90' stroke='%235a4326' stroke-width='2.5' fill='none'/></g><g transform='translate(368,75) scale(0.3)' stroke='%233a3428' stroke-width='4' fill='none'><circle cx='15' cy='30' r='14'/><circle cx='55' cy='30' r='14'/><path d='M15,30 L35,10 L55,30 M35,10 L30,30'/></g><g transform='translate(430,17) scale(0.75)'><path d='M20,55 L50,30 L80,55 Z' fill='%235a3a1f'/><circle cx='50' cy='28' r='3' fill='%23e8c96b'/><rect x='28' y='55' width='44' height='22' fill='%23a3703f'/><rect x='34' y='58' width='14' height='15' fill='%23cfe8ec' stroke='%235a4326' stroke-width='1'/><rect x='52' y='58' width='14' height='15' fill='%23cfe8ec' stroke='%235a4326' stroke-width='1'/><line x1='30' y1='77' x2='30' y2='90' stroke='%235a4326' stroke-width='3'/><line x1='70' y1='77' x2='70' y2='90' stroke='%235a4326' stroke-width='3'/><path d='M28,65 L14,70 L28,75 L14,80 L28,85 L18,90' stroke='%235a4326' stroke-width='2.5' fill='none'/></g><text x='460' y='20' font-size='16' fill='%232fb6a3'>♪</text><text x='478' y='10' font-size='14' fill='%232fb6a3'>♫</text><text x='495' y='24' font-size='13' fill='%232fb6a3'>♪</text></svg>");
+}
+
+
+/* 魚（2種類）。頭の向きにしか進まず、画面から出入りする。
+   海が深くなる画面上部ほど透けて見えにくくなる（JSが深さから透過度を設定） */
+#decor-towel .ocean-fish { position: absolute; width: 34px; height: 17px; }
+#decor-towel .ocean-fish .fish-inner { width: 100%; height: 100%; animation: fish-wag 0.9s ease-in-out infinite; }
+#decor-towel .fish-a .fish-inner {
+  background: no-repeat center/contain url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 20'><path d='M2,10 C10,2 26,2 34,10 C26,18 10,18 2,10 Z' fill='%23bfe8ea'/><path d='M34,10 L40,4 L40,16 Z' fill='%2390c9cf'/><circle cx='10' cy='9' r='1.4' fill='%23234'/></svg>");
+}
+#decor-towel .fish-b .fish-inner {
+  background: no-repeat center/contain url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 20'><path d='M2,10 C10,2 26,2 34,10 C26,18 10,18 2,10 Z' fill='%23f2b544'/><path d='M34,10 L40,4 L40,16 Z' fill='%23d68f2a'/><circle cx='10' cy='9' r='1.4' fill='%23234'/></svg>");
+}
+#decor-towel .ocean-fish.swim-left { animation: fish-swim-left linear forwards; }
+#decor-towel .ocean-fish.swim-right { animation: fish-swim-right linear forwards; }
+#decor-towel .ocean-fish.swim-right .fish-inner { animation-name: fish-wag-flipped; }
+@keyframes fish-swim-left {
+  0% { transform: translateX(0) translateY(0); opacity: 0; }
+  8% { opacity: var(--depth-opacity, 0.75); }
+  50% { transform: translateX(-45vw) translateY(-14px); }
+  92% { opacity: var(--depth-opacity, 0.75); }
+  100% { transform: translateX(-100vw) translateY(6px); opacity: 0; }
+}
+@keyframes fish-swim-right {
+  0% { transform: translateX(0) translateY(0); opacity: 0; }
+  8% { opacity: var(--depth-opacity, 0.75); }
+  50% { transform: translateX(45vw) translateY(-14px); }
+  92% { opacity: var(--depth-opacity, 0.75); }
+  100% { transform: translateX(100vw) translateY(6px); opacity: 0; }
+}
+@keyframes fish-wag {
+  0%, 100% { transform: scaleX(1); }
+  50% { transform: scaleX(0.85); }
+}
+@keyframes fish-wag-flipped {
+  0%, 100% { transform: scaleX(-1); }
+  50% { transform: scaleX(-0.85); }
+}
+
+/* 河豚は遠くへ泳がず、同じエリアをウロウロする */
+#decor-towel .ocean-fugu {
+  position: absolute; left: 46%; top: 44%; width: 42px; height: 32px; opacity: 0.72;
+  background: no-repeat center/contain url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 30'><ellipse cx='20' cy='16' rx='16' ry='12' fill='%23e8d9a0'/><g stroke='%23c9b87a' stroke-width='1.5'><line x1='8' y1='6' x2='5' y2='2'/><line x1='14' y1='3' x2='12' y2='-2'/><line x1='22' y1='2' x2='22' y2='-3'/><line x1='30' y1='4' x2='33' y2='0'/><line x1='34' y1='10' x2='39' y2='8'/><line x1='8' y1='26' x2='5' y2='30'/><line x1='16' y1='28' x2='14' y2='32'/><line x1='26' y1='27' x2='28' y2='31'/><line x1='33' y1='22' x2='38' y2='24'/></g><circle cx='12' cy='13' r='2' fill='%23222'/><path d='M4,17 Q2,20 4,23' stroke='%23b8442a' stroke-width='1.5' fill='none'/></svg>");
+  animation: fugu-wander 10s ease-in-out infinite;
+}
+@keyframes fugu-wander {
+  0%, 100% { transform: translate(0, 0) scaleX(1); }
+  30% { transform: translate(20px, -6px) scaleX(1); }
+  50% { transform: translate(20px, -6px) scaleX(-1); }
+  80% { transform: translate(-12px, 5px) scaleX(-1); }
+}
+
+/* 波打ち際の白い泡 */
+#decor-towel .ocean-waves {
+  position: absolute; left: 0; right: 0; bottom: 92px; height: 40px;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 40'><path d='M0,20 C25,5 50,35 75,20 C100,5 125,35 150,20 C175,5 200,20 200,20 L200,40 L0,40 Z' fill='%23ffffff' opacity='0.85'/><path d='M0,26 C25,14 50,38 75,26 C100,14 125,38 150,26 C175,14 200,26 200,26 L200,40 L0,40 Z' fill='%23eafaf6' opacity='0.6'/></svg>");
+  background-repeat: repeat-x; background-size: 200px 40px; background-position: bottom;
+  animation: wave-shimmer 5s ease-in-out infinite, wave-scroll 16s linear infinite;
+}
+@keyframes wave-shimmer { 0%, 100% { opacity: 0.7; } 50% { opacity: 1; } }
+@keyframes wave-scroll { 0% { background-position-x: 0; } 100% { background-position-x: -200px; } }
+
+/* 砂浜（貝殻・小石を混ぜたテクスチャ） */
+#decor-towel .ocean-beach {
+  position: absolute; left: 0; right: 0; bottom: 0; height: 92px;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='260' height='120'><filter id='s'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' seed='5'/><feColorMatrix type='matrix' values='0 0 0 0 0.93  0 0 0 0 0.85  0 0 0 0 0.68  0 0 0 0.3 0'/></filter><rect width='100%25' height='100%25' fill='%23e9d9ad'/><rect width='100%25' height='100%25' filter='url(%23s)'/><g transform='translate(46,74)'><path d='M0,20 C-14,10 -10,-6 0,-10 C10,-6 14,10 0,20 Z' fill='%23f2e4c8'/><path d='M0,18 L0,-8 M-6,15 L-3,-6 M6,15 L3,-6' stroke='%23d8c39a' stroke-width='1' fill='none'/></g><ellipse cx='150' cy='95' rx='7' ry='5' fill='%23b9ac95'/><ellipse cx='190' cy='80' rx='5' ry='4' fill='%23c8bba0'/><g transform='translate(210,88) scale(0.7)'><path d='M0,20 C-14,10 -10,-6 0,-10 C10,-6 14,10 0,20 Z' fill='%23f0dfc0'/><path d='M0,18 L0,-8 M-6,15 L-3,-6 M6,15 L3,-6' stroke='%23d8c39a' stroke-width='1' fill='none'/></g></svg>");
+  background-repeat: repeat-x; background-size: 260px 92px; background-position: bottom;
+}
+
+/* 歩く蟹（スクロール中は約1.75倍の速さになる） */
+#decor-towel .ocean-crab {
+  position: absolute; bottom: 26px; left: 22%; width: 46px; height: 32px;
+  background: no-repeat center/contain url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 40'><ellipse cx='30' cy='24' rx='16' ry='10' fill='%23d1583a'/><ellipse cx='30' cy='20' rx='13' ry='8' fill='%23e6714f'/><g stroke='%23b8442a' stroke-width='2' fill='none'><path d='M18,26 L4,32'/><path d='M20,30 L8,38'/><path d='M42,26 L56,32'/><path d='M40,30 L52,38'/></g><circle cx='22' cy='16' r='2.5' fill='%23222'/><circle cx='38' cy='16' r='2.5' fill='%23222'/><path d='M14,22 L6,14 M46,22 L54,14' stroke='%23d1583a' stroke-width='2.5' fill='none'/></svg>");
+  animation: crab-walk 8s ease-in-out infinite;
+}
+@keyframes crab-walk {
+  0%, 100% { transform: translateX(0) scaleX(1); }
+  45% { transform: translateX(60px) scaleX(1); }
+  50% { transform: translateX(60px) scaleX(-1); }
+  95% { transform: translateX(0) scaleX(-1); }
+}
+
+/* ヤドカリも砂浜を歩く */
+#decor-towel .ocean-hermit {
+  position: absolute; bottom: 22px; left: 62%; width: 40px; height: 28px;
+  background: no-repeat center/contain url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 50 34'><ellipse cx='34' cy='20' rx='13' ry='11' fill='%23c9915a'/><path d='M34,20 m-9,0 a9,9 0 1,1 18,0 a9,9 0 1,1 -18,0' fill='none' stroke='%23a5713c' stroke-width='2'/><path d='M34,20 m-5,0 a5,5 0 1,1 10,0 a5,5 0 1,1 -10,0' fill='none' stroke='%23a5713c' stroke-width='1.5'/><g stroke='%23b8442a' stroke-width='2' fill='none'><path d='M12,26 L2,30'/><path d='M14,29 L6,34'/></g><circle cx='14' cy='16' r='2' fill='%23222'/><path d='M10,20 L4,14' stroke='%23d1583a' stroke-width='2' fill='none'/></svg>");
+  animation: hermit-walk 11s ease-in-out infinite;
+}
+@keyframes hermit-walk {
+  0%, 100% { transform: translateX(0) scaleX(-1); }
+  45% { transform: translateX(-50px) scaleX(-1); }
+  50% { transform: translateX(-50px) scaleX(1); }
+  95% { transform: translateX(0) scaleX(1); }
+}
+
+/* 砂浜の右端の浮き輪とSUPボード2枚 */
+#decor-towel .ocean-buoy {
+  position: absolute; right: 6%; bottom: 20px; width: 54px; height: 54px;
+  background: no-repeat center/contain url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 60'><circle cx='30' cy='30' r='26' fill='none' stroke='%23fff' stroke-width='12'/><circle cx='30' cy='30' r='26' fill='none' stroke='%23c0392b' stroke-width='12' stroke-dasharray='20 20'/><circle cx='30' cy='30' r='12' fill='%232896b0'/></svg>");
+}
+#decor-towel .ocean-sup {
+  position: absolute; width: 90px; height: 22px;
+  background: no-repeat center/contain url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 30'><ellipse cx='60' cy='15' rx='58' ry='12' fill='%23f2ece2'/><ellipse cx='60' cy='15' rx='58' ry='12' fill='none' stroke='%23e0a94a' stroke-width='2'/><rect x='20' y='11' width='80' height='8' fill='%232fb6a3' opacity='0.6'/></svg>");
+}
+#decor-towel .ocean-sup.sup1 { right: 1%; bottom: 6px; }
+#decor-towel .ocean-sup.sup2 { right: 9%; bottom: 2px; width: 78px; transform: rotate(-5deg); }
+
+/* 波間に立ちのぼる泡 */
+#decor-towel .ocean-bubble {
+  position: absolute; bottom: -20px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, rgba(255,255,255,0.9), rgba(255,255,255,0.15) 70%);
+  animation: bubble-rise linear forwards;
+}
+@keyframes bubble-rise {
+  0% { transform: translate(0, 0) scale(0.6); opacity: 0; }
+  15% { opacity: 0.8; }
+  100% { transform: translate(12px, -60vh) scale(1); opacity: 0; }
+}
+
+/* カーソルは4隻目の小さなヨット */
+.ocean-cursor-drop {
+  width: 60px; height: 60px;
+  background: no-repeat center/contain url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 60'><path d='M10,42 C10,42 20,50 30,50 C40,50 50,42 50,42 L44,46 L16,46 Z' fill='%23e9e2d4'/><line x1='30' y1='42' x2='30' y2='10' stroke='%235a4a3a' stroke-width='2'/><path d='M30,12 L30,40 L14,40 Z' fill='%23f6f1e8'/><path d='M30,16 L30,40 L42,38 Z' fill='%23e0dccf'/></svg>");
+}
+
+.gate-box { border: 1px solid rgba(47,182,163,0.35); background: rgba(10,47,92,0.55); }
+.gate-box h1 { color: var(--accent-2); }
+
+#app-header { background: rgba(10,47,92,0.35); border-bottom: 1px solid rgba(47,182,163,0.2); }
+
+.photo-tile { border: 1px solid rgba(47,182,163,0.3); border-radius: var(--radius); }
+.icon-btn { color: var(--accent-2); border-color: rgba(47,182,163,0.4); }
+.icon-btn.on { background: var(--accent); color: #fff; }
+.year-tab { color: #eaf7f4; border-color: rgba(47,182,163,0.4); }
+.year-tab.active { color: #0a2f5c; }
+.note-block { border: none; background: rgba(255,255,255,0.85); border-radius: 22px; padding: 24px; color: var(--text); }
+.note-date, .photo-date { color: #dff5f0; }

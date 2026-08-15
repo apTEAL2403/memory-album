@@ -1,0 +1,188 @@
+/* ============================================================
+   field.css — 「野原」テーマ
+   青空、電線と電柱、そよ風。中央に丘、両端に小さな木で
+   開けた眺め。絵文字ではなく、手描き風のイラストで統一。
+   スクロールすると、朝焼け→昼→黄昏→夜→朝焼け…と
+   空の色が繰り返し移ろい、夜は星がきらめく。
+   ============================================================ */
+:root {
+  --bg: #eaf6ff;
+  --bg-alt: #ffffff;
+  --text: #2b3a4a;
+  --text-dim: #64798c;
+  --accent: #4a90c9;
+  --accent-2: #e0894a;
+  --card-bg: #ffffff;
+  --card-shadow: 0 12px 28px rgba(74,144,201,0.18);
+  --radius: 12px;
+  --font-display: "Zen Maru Gothic", sans-serif;
+  --font-body: "Zen Kaku Gothic New", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+}
+
+body {
+  background: linear-gradient(180deg, #bfe3ff 0%, #eaf6ff 45%, #f3fbef 100%);
+  cursor: none;
+}
+
+#decor-field { display: block; --cycle: mod(calc(var(--scroll, 0) * 2), 1); }
+
+#decor-field .field-sky { position: absolute; inset: 0; }
+#decor-field .field-sky::before {
+  content: ""; position: absolute; inset: 0;
+  background: radial-gradient(circle at 80% 8%, rgba(255,255,255,0.85), transparent 40%);
+}
+
+/* 朝焼け（黄色×水色）。0/1の境目をまたぐので両側から重ねる */
+#decor-field .field-sunrise {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, #bfe3ff 0%, #fff3c4 55%, #ffdca0 82%);
+  opacity: max(0, calc(1 - abs(var(--cycle) - 0) * 4), calc(1 - abs(var(--cycle) - 1) * 4));
+  transition: opacity 0.2s linear;
+}
+/* 黄昏時（オレンジ×赤・ピンク） */
+#decor-field .field-dusk {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, #ff9a5a 0%, #ff6f6f 40%, #d1487a 68%, transparent 90%);
+  opacity: max(0, calc(1 - abs(var(--cycle) - 0.5) * 4));
+  transition: opacity 0.2s linear;
+}
+/* 夜（濃い紺） */
+#decor-field .field-night {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, #0d1b3a 0%, #16264a 55%, #1c2f52 100%);
+  opacity: max(0, calc(1 - abs(var(--cycle) - 0.75) * 4));
+  transition: opacity 0.2s linear;
+}
+/* 夜にきらめく星 */
+#decor-field .field-stars {
+  position: absolute; inset: 0; top: 0; height: 70%;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='300'><g fill='white'><circle cx='20' cy='30' r='1.4'/><circle cx='80' cy='60' r='1'/><circle cx='140' cy='20' r='1.6'/><circle cx='200' cy='80' r='1'/><circle cx='260' cy='40' r='1.3'/><circle cx='320' cy='90' r='1'/><circle cx='370' cy='30' r='1.5'/><circle cx='50' cy='120' r='1'/><circle cx='110' cy='150' r='1.3'/><circle cx='180' cy='130' r='1'/><circle cx='240' cy='160' r='1.4'/><circle cx='300' cy='140' r='1'/><circle cx='360' cy='170' r='1.2'/><circle cx='30' cy='200' r='1'/><circle cx='160' cy='210' r='1.3'/><circle cx='280' cy='200' r='1'/></g></svg>");
+  background-repeat: repeat;
+  opacity: max(0, calc(1 - abs(var(--cycle) - 0.75) * 4));
+  animation: field-twinkle 3s ease-in-out infinite;
+  transition: opacity 0.2s linear;
+}
+@keyframes field-twinkle {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+/* 白い雲。ヘッダーに隠れないよう、少し下・中央〜上部に配置 */
+#decor-field .field-clouds { position: absolute; left: 0; right: 0; top: 70px; height: 42%; overflow: hidden; }
+#decor-field .field-clouds::before,
+#decor-field .field-clouds::after {
+  content: ""; position: absolute; top: 18%;
+  width: 240px; height: 90px; border-radius: 50%;
+  background:
+    radial-gradient(ellipse at 22% 60%, rgba(255,255,255,0.95), transparent 60%),
+    radial-gradient(ellipse at 42% 35%, rgba(255,255,255,0.95), transparent 58%),
+    radial-gradient(ellipse at 60% 50%, rgba(255,255,255,0.92), transparent 60%),
+    radial-gradient(ellipse at 78% 65%, rgba(255,255,255,0.88), transparent 58%),
+    radial-gradient(ellipse at 50% 75%, rgba(255,255,255,0.85), transparent 55%);
+  filter: blur(3px);
+  animation: cloud-drift 70s linear infinite;
+}
+#decor-field .field-clouds::before { left: -260px; animation-delay: 0s; }
+#decor-field .field-clouds::after { left: -260px; top: 42%; width: 160px; height: 50px; animation-delay: -35s; animation-duration: 90s; }
+@keyframes cloud-drift {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(calc(100vw + 260px)); }
+}
+
+/* 緑の原っぱ。丸みのある丘をやめ、画面下1/4を平面の原っぱに。
+   草のテクスチャは以前の2倍の密度で敷き詰める */
+#decor-field .field-hill {
+  position: absolute; left: 0; right: 0; bottom: 0; height: 25vh;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 200'><rect width='240' height='200' fill='%234a7a3a'/><rect y='0' width='240' height='40' fill='%235c8f47'/><g stroke='%237ea34c' stroke-width='2.5' stroke-linecap='round' opacity='0.6'><path d='M10,40 l -3,-16'/><path d='M25,40 l 3,-16'/><path d='M40,40 l -3,-14'/><path d='M55,40 l 3,-16'/><path d='M70,40 l -3,-15'/><path d='M85,40 l 3,-14'/><path d='M100,40 l -3,-16'/><path d='M115,40 l 3,-15'/><path d='M130,40 l -3,-14'/><path d='M145,40 l 3,-16'/><path d='M160,40 l -3,-15'/><path d='M175,40 l 3,-14'/><path d='M190,40 l -3,-16'/><path d='M205,40 l 3,-15'/><path d='M220,40 l -3,-14'/><path d='M235,40 l 3,-16'/><path d='M2,40 l 3,-13'/><path d='M18,40 l -3,-12'/><path d='M33,40 l 3,-13'/><path d='M48,40 l -3,-12'/><path d='M63,40 l 3,-13'/><path d='M78,40 l -3,-12'/><path d='M93,40 l 3,-13'/><path d='M108,40 l -3,-12'/><path d='M123,40 l 3,-13'/><path d='M138,40 l -3,-12'/><path d='M153,40 l 3,-13'/><path d='M168,40 l -3,-12'/><path d='M183,40 l 3,-13'/><path d='M198,40 l -3,-12'/><path d='M213,40 l 3,-13'/><path d='M228,40 l -3,-12'/></g></svg>");
+  background-repeat: repeat-x; background-size: 240px 25vh; background-position: bottom;
+}
+
+/* スターバックスのラテのようなカップ2つ */
+#decor-field .field-cup {
+  position: absolute; bottom: 3vh; width: 34px; height: 60px;
+  background: no-repeat bottom/contain url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 70'><rect x='18' y='-6' width='4' height='18' fill='%23e9e2d4'/><ellipse cx='20' cy='10' rx='16' ry='5' fill='%23e9e2d4'/><path d='M12,10 C12,6 28,6 28,10' fill='none' stroke='%23c9a06a' stroke-width='1.5'/><path d='M6,16 L34,16 L30,64 L10,64 Z' fill='%23f6f1e8'/><path d='M10,64 L30,64 L29,68 L11,68 Z' fill='%235a4326'/></svg>");
+}
+#decor-field .field-cup.c1 { left: 4%; }
+#decor-field .field-cup.c2 { left: 9%; bottom: 2.6vh; transform: scale(0.9); }
+
+/* カップのそばをひらひら飛ぶ蝶々 */
+#decor-field .field-butterfly {
+  position: absolute; left: 7%; bottom: 8vh; width: 26px; height: 20px;
+  animation: butterfly-flutter 6s ease-in-out infinite;
+}
+#decor-field .field-butterfly-inner {
+  width: 100%; height: 100%;
+  background: no-repeat center/contain url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 24'><ellipse cx='15' cy='12' rx='1.5' ry='8' fill='%23555'/><path d='M15,6 C6,2 2,8 8,13 C12,14 15,10 15,6 Z' fill='%23e79ab5'/><path d='M15,6 C24,2 28,8 22,13 C18,14 15,10 15,6 Z' fill='%23f5d76e'/><path d='M15,14 C8,16 4,20 9,22 C12,21 15,18 15,14 Z' fill='%23e79ab5' opacity='0.85'/><path d='M15,14 C22,16 26,20 21,22 C18,21 15,18 15,14 Z' fill='%23f5d76e' opacity='0.85'/></svg>");
+  animation: butterfly-flap 0.35s ease-in-out infinite;
+}
+@keyframes butterfly-flutter {
+  0%, 100% { transform: translate(0, 0); }
+  25% { transform: translate(12px, -10px); }
+  50% { transform: translate(4px, -18px); }
+  75% { transform: translate(-8px, -8px); }
+}
+@keyframes butterfly-flap {
+  0%, 100% { transform: scaleX(1); }
+  50% { transform: scaleX(0.55); }
+}
+
+/* ガラス張りの2階建ての建物。画面右端から少しはみ出して切れている */
+#decor-field .field-building {
+  position: absolute; right: -46px; bottom: 0; width: 190px; height: 66vh;
+  background: no-repeat bottom/contain url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 500'><rect x='0' y='0' width='220' height='500' fill='%23aebdc4'/><rect x='0' y='245' width='220' height='10' fill='%238b9aa1'/><g fill='%23cfe8ec' opacity='0.9'><rect x='14' y='20' width='40' height='90'/><rect x='64' y='20' width='40' height='90'/><rect x='114' y='20' width='40' height='90'/><rect x='164' y='20' width='40' height='90'/><rect x='14' y='130' width='40' height='90'/><rect x='64' y='130' width='40' height='90'/><rect x='114' y='130' width='40' height='90'/><rect x='164' y='130' width='40' height='90'/><rect x='14' y='270' width='40' height='90'/><rect x='64' y='270' width='40' height='90'/><rect x='114' y='270' width='40' height='90'/><rect x='164' y='270' width='40' height='90'/><rect x='14' y='380' width='40' height='90'/><rect x='64' y='380' width='40' height='90'/><rect x='114' y='380' width='40' height='90'/><rect x='164' y='380' width='40' height='90'/></g><g fill='white' opacity='0.25'><rect x='14' y='20' width='10' height='90'/><rect x='64' y='20' width='10' height='90'/><rect x='114' y='20' width='10' height='90'/><rect x='164' y='20' width='10' height='90'/><rect x='14' y='270' width='10' height='90'/><rect x='64' y='270' width='10' height='90'/><rect x='114' y='270' width='10' height='90'/><rect x='164' y='270' width='10' height='90'/></g></svg>");
+  opacity: 0.92;
+}
+
+/* 風に飛んでくる葉っぱ（手描き風のシルエット） */
+#decor-field .field-petal {
+  position: absolute; width: 20px; height: 20px;
+  background-repeat: no-repeat; background-size: contain;
+  animation: field-drift linear forwards;
+}
+@keyframes field-drift {
+  0% { transform: translate(0, 0) rotate(0deg); opacity: 0; }
+  8% { opacity: 0.9; }
+  100% { transform: translate(-70vw, 90vh) rotate(340deg); opacity: 0.2; }
+}
+
+/* 空を飛ぶ鳥（その場でゆらゆら揺れながら、遠くへ飛んでいくように小さくなる） */
+#decor-field .field-bird {
+  position: absolute; width: 34px; height: 17px;
+  animation: bird-recede ease-in-out forwards;
+}
+#decor-field .field-bird-inner {
+  width: 100%; height: 100%;
+  background: no-repeat center/contain url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 20'><path d='M2,14 C8,4 14,4 20,10 C26,4 32,4 38,14 C30,10 26,12 20,16 C14,12 10,10 2,14 Z' fill='%233a3428'/></svg>");
+  animation: bird-flap 0.6s ease-in-out infinite;
+}
+@keyframes bird-recede {
+  0% { transform: translate(0, 0) scale(1); opacity: 0; }
+  10% { opacity: 0.85; }
+  30% { transform: translate(6px, -4px) scale(0.9); }
+  50% { transform: translate(-5px, -8px) scale(0.75); }
+  70% { transform: translate(4px, -14px) scale(0.55); }
+  100% { transform: translate(0, -20px) scale(0.25); opacity: 0; }
+}
+@keyframes bird-flap {
+  0%, 100% { transform: scaleY(1); }
+  50% { transform: scaleY(0.65); }
+}
+
+/* 葉っぱ型のカーソル（手描き風） */
+.field-cursor-leaf {
+  width: 22px; height: 22px;
+  background: no-repeat center/contain url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M4,20 C2,10 10,2 20,4 C18,14 10,20 4,20 Z' fill='%237ea34c'/><path d='M5,19 C7,12 12,7 18,5' stroke='%235a7d3a' stroke-width='1' fill='none'/></svg>");
+  transform: rotate(-15deg);
+}
+
+.gate-box { border: 1px solid rgba(74,144,201,0.25); }
+.gate-box h1 { color: var(--accent); }
+
+#app-header { background: rgba(234,246,255,0.7); border-bottom: 1px solid rgba(74,144,201,0.15); }
+
+.photo-tile { border: 1px solid rgba(74,144,201,0.15); }
+.note-body { color: var(--text); }
+.icon-btn { color: var(--accent); border-color: rgba(74,144,201,0.3); }
+.icon-btn.on { background: var(--accent); color: #fff; }
+.year-tab.active { color: #fff; }

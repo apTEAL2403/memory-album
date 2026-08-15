@@ -1,0 +1,212 @@
+/* ============================================================
+   cinema.css — 「映画」テーマ
+   濃いワインレッド、古いパーチメント紙、古いテレビのような
+   ジジッとしたブレとノイズ。スクロールするほどフィルムが
+   古びていくような、じんわりとした演出。
+   ============================================================ */
+:root {
+  --bg: #1a0b0d;
+  --bg-alt: #241012;
+  --text: #ece2cf;
+  --text-dim: #b09a86;
+  --accent: #ffeba8;
+  --accent-2: #8e2f3a;
+  --card-bg: rgba(236,226,207,0.05);
+  --card-shadow: 0 20px 50px rgba(0,0,0,0.6);
+  --radius: 2px;
+  --font-display: "Cormorant Garamond", serif;
+  --font-body: "Zen Kaku Gothic New", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+}
+
+body {
+  background:
+    radial-gradient(ellipse at 50% 0%, #3a1216 0%, transparent 60%),
+    linear-gradient(180deg, #1a0b0d, #120708);
+  cursor: none;
+}
+
+#decor-cinema { display: block; }
+#decor-cinema .cinema-letterbox-top,
+#decor-cinema .cinema-letterbox-bottom {
+  position: absolute; left: 0; right: 0; height: 4vh; background: #000;
+}
+#decor-cinema .cinema-letterbox-top { top: 0; }
+#decor-cinema .cinema-letterbox-bottom { bottom: 0; }
+
+/* スクロールが進むほど、フィルムが古びてビネットが濃くなる */
+#decor-cinema .cinema-vignette {
+  position: absolute; inset: 0;
+  box-shadow: inset 0 0 180px rgba(0,0,0,0.7);
+  opacity: calc(0.55 + var(--scroll, 0) * 0.45);
+  transition: opacity 0.2s linear;
+}
+#decor-cinema .cinema-grain {
+  position: absolute; inset: 0; opacity: 0.07; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  animation: cinema-grain 0.4s steps(2) infinite;
+}
+@keyframes cinema-grain {
+  0% { transform: translate(0,0); }
+  50% { transform: translate(-1%,1%); }
+  100% { transform: translate(1%,-1%); }
+}
+#decor-cinema .cinema-scanlines {
+  position: absolute; inset: 0; opacity: 0.12;
+  background: repeating-linear-gradient(0deg, rgba(0,0,0,0.6) 0px, rgba(0,0,0,0.6) 1px, transparent 2px, transparent 3px);
+  animation: cinema-jitter 6s infinite;
+}
+@keyframes cinema-jitter {
+  0%, 96%, 100% { transform: translateY(0); }
+  97% { transform: translateY(2px); }
+  98% { transform: translateY(-1px); }
+}
+
+/* 昔のテレビ・VHSのような波形グリッチ */
+#decor-cinema::before {
+  content: ""; position: absolute; left: 0; right: 0; height: 8px; top: 20%;
+  background: linear-gradient(90deg, rgba(255,60,90,0.4), rgba(90,220,255,0.3));
+  mix-blend-mode: screen; opacity: 0;
+  animation: vhs-glitch-bar 8s infinite;
+}
+@keyframes vhs-glitch-bar {
+  0%, 91%, 100% { opacity: 0; top: 20%; transform: scaleY(1); }
+  92% { opacity: 0.55; top: 32%; transform: scaleY(2.4); }
+  93% { opacity: 0.35; top: 58%; transform: scaleY(1.2); }
+  94% { opacity: 0.5; top: 12%; transform: scaleY(3); }
+  95% { opacity: 0; }
+}
+#decor-cinema::after {
+  content: ""; position: absolute; inset: 0;
+  background: repeating-linear-gradient(0deg, rgba(255,255,255,0.035) 0px, rgba(255,255,255,0.035) 2px, transparent 2px, transparent 4px);
+  mix-blend-mode: overlay;
+  animation: vhs-wave-shift 9s infinite;
+}
+@keyframes vhs-wave-shift {
+  0%, 90%, 100% { transform: translateX(0); }
+  91% { transform: translateX(-7px); }
+  92% { transform: translateX(5px); }
+  93% { transform: translateX(-2px); }
+  94% { transform: translateX(0); }
+}
+
+/* 映写機の光に舞う塵 */
+#decor-cinema .cinema-dust {
+  position: absolute; bottom: -10px; width: 3px; height: 3px; border-radius: 50%;
+  background: rgba(255,235,168,0.55); box-shadow: 0 0 6px rgba(255,235,168,0.5);
+  animation: cinema-dust-rise linear forwards;
+}
+@keyframes cinema-dust-rise {
+  0% { transform: translate(0, 0); opacity: 0; }
+  10% { opacity: 0.8; }
+  100% { transform: translate(30px, -100vh); opacity: 0; }
+}
+
+/* フィルムの傷（スクラッチ） */
+#decor-cinema .cinema-scratch {
+  position: absolute; top: 0; width: 1px; height: 100%;
+  background: rgba(255,255,255,0.5);
+  animation: cinema-scratch-flash 0.5s ease-out forwards;
+}
+@keyframes cinema-scratch-flash {
+  0% { opacity: 0.9; }
+  100% { opacity: 0; }
+}
+
+/* カメラのビューファインダー風カーソル */
+.cinema-cursor-ring {
+  width: 30px; height: 30px; border: 1px solid rgba(255,235,168,0.85);
+  border-radius: 50%; position: relative;
+}
+.cinema-cursor-ring::before, .cinema-cursor-ring::after {
+  content: ""; position: absolute; background: rgba(255,235,168,0.85);
+}
+.cinema-cursor-ring::before { left: 50%; top: -6px; width: 1px; height: 6px; transform: translateX(-50%); }
+.cinema-cursor-ring::after { left: 50%; bottom: -6px; width: 1px; height: 6px; transform: translateX(-50%); }
+
+.gate-box {
+  border: 1px solid rgba(255,235,168,0.35);
+  background: rgba(36,16,18,0.75);
+}
+.gate-box h1 { letter-spacing: 0.25em; font-style: italic; }
+
+#app-header { background: linear-gradient(180deg, rgba(0,0,0,0.55), transparent); }
+
+.photo-tile { border: 1px solid rgba(255,235,168,0.2); filter: sepia(0.15) contrast(1.05); }
+.note-block { border-color: rgba(255,235,168,0.25); }
+.note-body { font-style: italic; }
+.icon-btn.on { box-shadow: 0 0 12px rgba(255,235,168,0.6); }
+
+/* ============================================================
+   追加：舞台・スポットライト・緞帳（アイコンを使わず絵として描画）
+   既存の設定は一切変更せず、末尾に追加のみ行っています。
+   ============================================================ */
+#decor-cinema .cinema-stage {
+  position: absolute; left: 0; right: 0; bottom: 0; height: 130px;
+  background:
+    linear-gradient(90deg, rgba(0,0,0,0.3), transparent 15%, transparent 85%, rgba(0,0,0,0.3)),
+    linear-gradient(180deg, #2a1012 0%, #170a0b 75%);
+  box-shadow: 0 -2px 0 rgba(255,235,168,0.12) inset, 0 -16px 30px rgba(0,0,0,0.55) inset;
+}
+#decor-cinema .cinema-stage::before {
+  content: ""; position: absolute; inset: 0;
+  background-image: repeating-linear-gradient(100deg, rgba(255,255,255,0.03) 0px, rgba(255,255,255,0.03) 2px, transparent 2px, transparent 26px);
+  opacity: 0.5;
+}
+
+#decor-cinema .cinema-spotlight {
+  position: absolute; left: 50%; bottom: 0; width: 70vw; height: 62vh;
+  transform: translateX(-50%);
+  background: radial-gradient(ellipse 55% 100% at 50% 100%, rgba(255,235,168,0.26), transparent 70%);
+  clip-path: polygon(46% 0%, 54% 0%, 88% 100%, 12% 100%);
+  mix-blend-mode: screen;
+}
+
+#decor-cinema .cinema-curtain-left,
+#decor-cinema .cinema-curtain-right {
+  position: absolute; top: 0; bottom: 0; width: 13vw; min-width: 90px;
+  background:
+    repeating-linear-gradient(90deg, #4a1218 0px, #6b1c22 26px, #4a1218 52px, #350f13 78px),
+    linear-gradient(180deg, #6b1c22, #350f13 85%);
+  box-shadow: inset 0 0 40px rgba(0,0,0,0.6);
+}
+#decor-cinema .cinema-curtain-left { left: 0; border-radius: 0 0 60% 0; animation: curtain-sway-left 6s ease-in-out infinite; }
+#decor-cinema .cinema-curtain-right { right: 0; border-radius: 0 0 0 60%; animation: curtain-sway-right 6s ease-in-out infinite; }
+#decor-cinema .cinema-curtain-left::after,
+#decor-cinema .cinema-curtain-right::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 18px;
+  background: repeating-linear-gradient(90deg, #ffeba8 0px, #ffeba8 6px, transparent 6px, transparent 14px);
+  opacity: 0.8;
+}
+@keyframes curtain-sway-left {
+  0%, 100% { transform: skewY(0deg); }
+  50% { transform: skewY(0.4deg); }
+}
+@keyframes curtain-sway-right {
+  0%, 100% { transform: scaleX(-1) skewY(0deg); }
+  50% { transform: scaleX(-1) skewY(-0.4deg); }
+}
+
+/* ============================================================
+   追加：画面上下の舞台ライト、ゆっくり動く大きなスポットライト
+   ============================================================ */
+#decor-cinema .cinema-top-lights {
+  position: absolute; top: 0; left: 0; right: 0; height: 12px;
+  background-image: repeating-linear-gradient(90deg,
+    #ff6b6b 0 8px, #ffd166 8px 16px, #6bc4ff 16px 24px, #b06bff 24px 32px, #6bffb0 32px 40px, transparent 40px 48px);
+  opacity: 0.85; filter: blur(0.4px);
+}
+#decor-cinema .cinema-bottom-lights {
+  position: absolute; bottom: 0; left: 0; right: 0; height: 10px;
+  background-image: repeating-linear-gradient(90deg,
+    rgba(255,235,168,0.95) 0 10px, transparent 10px 22px);
+  filter: blur(0.6px);
+}
+#decor-cinema .cinema-roam-spot {
+  position: absolute; width: 320px; height: 320px; border-radius: 50%;
+  background: #ffebbd; opacity: 0.65;
+  left: calc(50% + 38vw * sin(calc(var(--scroll, 0) * 1008deg)));
+  top: calc(50% + 30vh * cos(calc(var(--scroll, 0) * 705.6deg)));
+  transform: translate(-50%, -50%);
+  transition: left 0.15s linear, top 0.15s linear;
+}

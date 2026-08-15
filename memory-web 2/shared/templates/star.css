@@ -1,0 +1,187 @@
+/* ============================================================
+   star.css — 「星」テーマ
+   黒〜濃紫のグラデーション、きらめく星と惑星、流れ星。
+   スクロールするほど夜が深まり、銀河がくっきり見えてくる。
+   ============================================================ */
+:root {
+  --bg: #0a0714;
+  --bg-alt: #150f28;
+  --text: #eee9ff;
+  --text-dim: #9a90c2;
+  --accent: #d9c46a;
+  --accent-2: #7c5cff;
+  --card-bg: rgba(124,92,255,0.08);
+  --card-shadow: 0 0 40px rgba(124,92,255,0.22);
+  --radius: 14px;
+  --font-display: "Cormorant Garamond", serif;
+  --font-body: "Zen Kaku Gothic New", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+}
+
+body {
+  background:
+    radial-gradient(ellipse at 15% -18%, #2c1f57 0%, transparent 36%),
+    radial-gradient(ellipse at 90% 118%, #241a45 0%, transparent 36%),
+    radial-gradient(ellipse at 50% 45%, #08050f 0%, transparent 68%),
+    linear-gradient(180deg, #050308, #0a0714 55%, #050308);
+  cursor: none;
+}
+
+/* スクロールするほど銀河が濃く、遠い星がはっきり見えてくる */
+#decor-star { display: block; }
+#decor-star::before {
+  content: ""; position: absolute; inset: 0;
+  background: radial-gradient(circle at 50% 30%, rgba(124,92,255,0.28), transparent 60%);
+  opacity: calc(0.2 + var(--scroll, 0) * 0.8);
+  transition: opacity 0.2s linear;
+}
+#star-canvas { position: absolute; inset: 0; }
+
+/* 天の川。白い星の川のように明るく */
+#decor-star .milky-way {
+  position: absolute; inset: -20% -20%;
+  background: linear-gradient(115deg,
+    transparent 38%,
+    rgba(255,255,255,0.06) 44%,
+    rgba(255,255,255,0.16) 48%,
+    rgba(255,255,255,0.28) 50%,
+    rgba(255,255,255,0.16) 52%,
+    rgba(255,255,255,0.06) 56%,
+    transparent 62%);
+  filter: blur(1px);
+}
+
+#decor-star .planet {
+  position: absolute; border-radius: 50%;
+  background: radial-gradient(circle at 32% 28%, #6a5cff, #241a45 70%);
+  box-shadow: 0 0 40px rgba(124,92,255,0.5);
+  transition: transform 0.2s linear;
+}
+#decor-star .planet.p1 {
+  width: 90px; height: 90px; top: 8%; right: 10%; opacity: 0.5;
+  transform: translateY(calc(var(--scroll, 0) * -40px));
+}
+#decor-star .planet.p2 {
+  width: 40px; height: 40px; bottom: 14%; left: 6%; opacity: 0.35;
+  transform: translateY(calc(var(--scroll, 0) * 30px));
+}
+
+/* 月。スクロールすると満月→新月→満月と1周する */
+#decor-star .moon {
+  position: absolute; top: 10%; left: 12%; width: 56px; height: 56px;
+  border-radius: 50%; overflow: hidden;
+  background: radial-gradient(circle at 35% 35%, #fdf6e3, #cfc9b8 70%);
+  box-shadow: 0 0 24px rgba(253,246,227,0.35);
+}
+#decor-star .moon::before {
+  content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 50%;
+  background: #05040a;
+  transform: translateX(calc(100% * abs(2 * var(--scroll, 0) - 1)));
+  transition: transform 0.2s linear;
+}
+
+.photo-tile { border-radius: 0; }
+
+/* 追加の天体。それぞれ独自の速さで公転（ゆっくり漂う）・自転する */
+@keyframes spin-slow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+#decor-star .planet-gas { position: absolute; width: 70px; height: 70px; top: 55%; right: 8%; animation: orbit-gas 90s ease-in-out infinite; }
+#decor-star .planet-gas .spin-inner {
+  width: 100%; height: 100%; border-radius: 50%; position: relative;
+  background: radial-gradient(circle at 35% 30%, #e8c988, #a9793f 70%);
+  box-shadow: 0 0 20px rgba(232,201,136,0.3);
+  animation: spin-slow 40s linear infinite;
+}
+#decor-star .planet-gas .spin-inner::before {
+  content: ""; position: absolute; top: 50%; left: 50%; width: 130px; height: 26px;
+  border: 3px solid rgba(232,201,136,0.6); border-radius: 50%;
+  transform: translate(-50%, -50%) rotate(-20deg);
+}
+@keyframes orbit-gas { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(-16px, 10px); } }
+
+#decor-star .planet-mars { position: absolute; width: 22px; height: 22px; top: 70%; left: 20%; animation: orbit-mars 60s ease-in-out infinite; }
+#decor-star .planet-mars .spin-inner {
+  width: 100%; height: 100%; border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #d9714a, #8a3620 70%);
+  animation: spin-slow 22s linear infinite;
+}
+@keyframes orbit-mars { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(12px, -8px); } }
+
+#decor-star .planet-earth { position: absolute; width: 34px; height: 34px; top: 40%; right: 30%; animation: orbit-earth 75s ease-in-out infinite; }
+#decor-star .planet-earth .spin-inner {
+  width: 100%; height: 100%; border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #6fa8d9, #2c5f8a 60%, #3a7a4a 80%);
+  animation: spin-slow 16s linear infinite;
+}
+@keyframes orbit-earth { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(-10px, -14px); } }
+
+#decor-star .asteroid { position: absolute; width: 16px; height: 14px; top: 25%; left: 65%; animation: orbit-asteroid 50s ease-in-out infinite; }
+#decor-star .asteroid .spin-inner {
+  width: 100%; height: 100%; border-radius: 40% 60% 55% 45%;
+  background: radial-gradient(circle at 35% 35%, #4a4550, #1a1720 80%);
+  animation: spin-slow 12s linear infinite;
+}
+@keyframes orbit-asteroid { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(9px, 7px); } }
+
+/* 彗星（強く光りながら流れる） */
+#decor-star .comet {
+  position: absolute; width: 6px; height: 6px; border-radius: 50%;
+  background: #fff; box-shadow: 0 0 18px 6px rgba(255,255,255,0.95);
+  animation: comet-path 13s linear infinite;
+}
+#decor-star .comet::before {
+  content: ""; position: absolute; top: 50%; right: 100%; width: 150px; height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.95));
+  transform-origin: right center; transform: translateY(-50%) rotate(135deg);
+}
+@keyframes comet-path {
+  0% { top: 4%; left: 4%; opacity: 0; }
+  6% { opacity: 1; }
+  94% { opacity: 1; }
+  100% { top: 74%; left: 74%; opacity: 0; }
+}
+
+/* 流れ星 */
+#decor-star .shooting-star {
+  position: absolute; width: 3px; height: 3px; border-radius: 50%;
+  background: #fff; box-shadow: 0 0 12px 4px rgba(255,255,255,0.95);
+  animation: shoot 1.4s ease-out forwards;
+}
+#decor-star .shooting-star::before {
+  content: ""; position: absolute; top: 50%; right: 100%; width: 110px; height: 1.5px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,1));
+  transform-origin: right center;
+  transform: translateY(-50%) rotate(135deg);
+}
+@keyframes shoot {
+  0% { transform: translate(0, 0); opacity: 0; }
+  10% { opacity: 1; }
+  100% { transform: translate(-220px, 220px); opacity: 0; }
+}
+
+/* カーソルの余韻に散るきらめき */
+#decor-star .cursor-sparkle {
+  position: absolute; width: 4px; height: 4px; border-radius: 50%;
+  background: var(--accent); box-shadow: 0 0 8px 2px rgba(217,196,106,0.8);
+  animation: sparkle-fade 0.7s ease-out forwards;
+  transform: translate(-50%, -50%);
+}
+@keyframes sparkle-fade {
+  0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(0.2); }
+}
+
+/* カスタムカーソル本体（宇宙船） */
+.star-cursor-core {
+  width: 26px; height: 26px;
+  background: no-repeat center/contain url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M12,2 C16,6 17,12 15,18 L9,18 C7,12 8,6 12,2 Z' fill='%23d9c46a'/><circle cx='12' cy='9' r='2' fill='%237c5cff'/><path d='M9,18 L6,22 L9,20 Z' fill='%238a6a2a'/><path d='M15,18 L18,22 L15,20 Z' fill='%238a6a2a'/></svg>");
+  filter: drop-shadow(0 0 6px rgba(217,196,106,0.6));
+}
+
+.gate-box, #app-header { background: rgba(21,15,40,0.6); }
+.gate-box { border: 1px solid rgba(217,196,106,0.3); }
+.gate-box h1 { letter-spacing: 0.15em; text-shadow: 0 0 16px rgba(217,196,106,0.5); }
+
+.note-body { text-shadow: 0 0 18px rgba(124,92,255,0.15); }
+.photo-tile { border: 1px solid rgba(124,92,255,0.25); }
+.icon-btn.on { box-shadow: 0 0 14px rgba(217,196,106,0.6); }
