@@ -4,7 +4,7 @@
 // あなたの公開鍵に書き換えてください（NOTIFICATIONS_SETUP.md 参照）
 // ============================================================
 
-const VAPID_PUBLIC_KEY = "YOUR_VAPID_PUBLIC_KEY";
+const VAPID_PUBLIC_KEY = "BEIPtEkA4fYl9xT3KxmbGVbpOlncQIDmedOT5B_DT4UiqMJgtTLXa6hSwWqo5hYrINVMO_invo9wXo0tuuj3AzI";
 
 function urlBase64ToUint8Array(base64String) {
   const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
