@@ -69,8 +69,17 @@ Deno.serve(async (req) => {
       )
     );
 
-    const sent = results.filter((r) => r.status === "fulfilled").length;
-    return new Response(`sent ${sent}/${subs.length}`, { status: 200 });
+const sent = results.filter((r) => r.status === "fulfilled").length;
+
+console.log(`Push result: sent ${sent}/${subs.length}`);
+
+results.forEach((result, i) => {
+  if (result.status === "rejected") {
+    console.error(`Push failed for subscription ${i}:`, result.reason);
+  }
+});
+
+return new Response(`sent ${sent}/${subs.length}`, { status: 200 });
   } catch (e) {
     console.error(e);
     return new Response(String(e), { status: 500 });
